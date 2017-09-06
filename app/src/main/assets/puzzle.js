@@ -18,6 +18,8 @@ $(document).ready(function(){
             piece.innerHTML = piece.id;
             piece.className = "piece";
             piece.style.border = "thick solid #0000FF";
+            if (piece.id % 2 == 0) piece.style.backgroundColor = "white";
+            else piece.style.backgroundColor = "red";
         }
         cell.className = "cell";
         cell.appendChild(piece);
@@ -55,7 +57,7 @@ $(document).ready(function(){
                var endPosition = $target.offset();
                var startPosition = $piece.offset();
                $piece.css({
-                   position: 'absolute',
+                   //position: 'absolute',
                    top: startPosition.top,
                    left: startPosition.left
                });
