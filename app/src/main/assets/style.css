@@ -1,14 +1,13 @@
 body {
-background-color: rgb(0,0,0);
+  background-color: rgb(0,0,0);
 }
 
 #puzzle {
 border: thick solid #ff0000;
 border-width:10px;
 border-radius: 15px;
-text-align: center;
-min-width: 320px;
-min-height: 160px;
+width: 320px;
+height: 160px;
 }
 
 th, td {
@@ -16,16 +15,19 @@ background-color: gray;
 border: 1px solid black;
 border-collapse: collapse;
 text-align: center;
-min-width: 80px;
-min-height: 80px;
-white-space: nowrap;
+width: 80px; height: 80px;
 }
 
 .piece {
-border: thick solid #0000FF;
+border: 2px solid darken(background, 20);
 border-collapse: collapse;
 border-radius: 15px;
 text-align: center;
-width: 80px;
-height: 80px;
+vertical-align: middle;
+width: 80px; height: 80px;
+}
+
+#counters {
+color: white;
+text-align: center;
 }

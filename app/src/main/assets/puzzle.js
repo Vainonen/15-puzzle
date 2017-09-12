@@ -1,7 +1,16 @@
 $(document).ready(function(){
+    var startTime = new Date().getTime();
+    var clock = setInterval(function(){ countTime() }, 1000);
+    var moves = 0;
     var puzzleLength = 4;
     var puzzle = shuffle(puzzleLength, puzzleLength);
     var table = document.getElementById("puzzle");
+    var puzzleSize;
+    var ww = $(window).width();
+    if ($(window).width() < $(window).height()) puzzleSize = $(window).width();
+    else puzzleSize = $(window).height();
+    $('#puzzle').width(puzzleSize - puzzleSize/50);
+    $('#puzzle').height(puzzleSize - puzzleSize/50);
     for (var i = 0; i < puzzleLength; i++) {
     var row = table.insertRow(i);
     for (var j = 0; j < puzzleLength; j++) {
@@ -17,14 +26,33 @@ $(document).ready(function(){
             piece.y = i;
             piece.innerHTML = piece.id;
             piece.className = "piece";
-            piece.style.border = "thick solid #0000FF";
-            if (piece.id % 2 == 0) piece.style.backgroundColor = "white";
-            else piece.style.backgroundColor = "red";
+            /* first tile of first row red, first tile of second row white
+            and every following tile in row with different color than its predecessor */
+            if ((piece.id % puzzleLength) % 2 !== (Math.floor((piece.id - 1)/ puzzleLength)) % 2) color = "red";
+            else color = "white";
+            piece.style.backgroundColor = color;
+            piece.style.border="2px solid darken(background, 20)";
         }
         cell.className = "cell";
         cell.appendChild(piece);
     }
 }
+
+     function countTime() {
+        var now = new Date().getTime();
+        var distance =  now - startTime;
+        var days = Math.floor(distance /  (1000 * 60 * 60 * 24));
+        var hours = Math.floor((distance % (1000 *  60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance  % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance  % (1000 * 60)) / 1000);
+        document.getElementById("clock").innerHTML = "";
+        if (days > 0) document.getElementById("clock").innerHTML += days + ":";
+        if (hours > 0) document.getElementById("clock").innerHTML += hours + ":";
+        if (minutes < 9) document.getElementById("clock").innerHTML += "0" + minutes + ":";
+        else document.getElementById("clock").innerHTML += minutes + ":";
+        if (seconds < 9) document.getElementById("clock").innerHTML += "0" + seconds;
+        else document.getElementById("clock").innerHTML += seconds;
+     }
 
     $(function() {
       $('.piece').swipe( {
@@ -37,6 +65,7 @@ $(document).ready(function(){
 		   var rowIndex = $origin.parent('tr').index();
            alert(columnIndex+" "+rowIndex);
            if (validMove(piece, direction)){
+                moves++;
            		switch(direction){
                 	case "up":
                     	rowIndex--;
